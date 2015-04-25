@@ -46,3 +46,11 @@ Then, run the following command:
 ```bash
 $ pod install
 ```
+
+## Author
+
+Silas Knobel
+
+## License
+
+SobrKit is available under the MIT license. See the LICENSE file for more info.
