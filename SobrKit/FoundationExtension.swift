@@ -22,6 +22,7 @@
 
 import Foundation
 
+//MARK: - String
 public extension String {
     var length: Int {
         get {
@@ -33,6 +34,10 @@ public extension String {
         return NSLocalizedString(self, tableName: nil, bundle: NSBundle.mainBundle(), value: "", comment: "")
     }
     
+    func localizedFormat(args: CVarArgType) -> String {
+        return NSString(format: self.localized(), args) as String
+    }
+    
     func isValidEmail() -> Bool {
         return self.matchesRegex("[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}")
     }
@@ -42,10 +47,78 @@ public extension String {
         let result = test.evaluateWithObject(self)
         return result
     }
+    
+    func condenseWhitespace() -> String {
+        let components = self.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        return "".join(components)
+    }
+    
+    func toBool() -> Bool {
+        return self == "true"
+    }
+
+    func toDouble() -> Double {
+        return (self as NSString).doubleValue
+    }
 }
 
-extension Double {
+//MARK: - Double
+public extension Double {
     func stringWithFormat(format: String) -> String {
         return NSString(format: "%\(format)f", self) as String
+    }
+}
+
+//MARK: - NSObject
+public extension NSObject {
+    
+    class func swizzleMethodSelector(origSelector: String!, withSelector: String!, forClass:AnyClass!) -> Bool {
+        
+        var originalMethod: Method?
+        var swizzledMethod: Method?
+        
+        originalMethod = class_getInstanceMethod(forClass, Selector(origSelector))
+        swizzledMethod = class_getInstanceMethod(forClass, Selector(withSelector))
+        
+        if (originalMethod != nil && swizzledMethod != nil) {
+            method_exchangeImplementations(originalMethod!, swizzledMethod!)
+            return true
+        }
+        return false
+    }
+    
+    class func swizzleStaticMethodSelector(origSelector: String!, withSelector: String!, forClass:AnyClass!) -> Bool {
+        
+        var originalMethod: Method?
+        var swizzledMethod: Method?
+        
+        originalMethod = class_getClassMethod(forClass, Selector(origSelector))
+        swizzledMethod = class_getClassMethod(forClass, Selector(withSelector))
+        
+        if (originalMethod != nil && swizzledMethod != nil) {
+            method_exchangeImplementations(originalMethod!, swizzledMethod!)
+            return true
+        }
+        return false
+    }
+}
+
+//MARK: - NSURL
+public extension NSURL {
+    func queryParameters() -> [String: String] {
+        
+        let query = self.query!
+        let keyValuePairs = split(query) { $0 == "&" }
+        
+        var returnData: [String: String] = [String: String]()
+        
+        for keyValuePair in keyValuePairs {
+            let splits = split(keyValuePair) {$0 == "="}
+            let key = splits[0] as String
+            let value = splits[1] as String
+            returnData[key] = value
+        }
+        
+        return returnData
     }
 }
