@@ -1,5 +1,6 @@
 //: Playground - noun: a place where people can play
 
 import UIKit
+import SobrKit
 
-var str = "Hello, playground"
+var string: String = "Hello World"
