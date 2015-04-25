@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:SobrKit Example App/SobrKit Example App.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:SobrKit.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:SobrKit.playground">
+   </FileRef>
+</Workspace>
