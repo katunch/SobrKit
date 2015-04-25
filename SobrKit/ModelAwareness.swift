@@ -529,7 +529,7 @@ extension UISegmentedControl: ModelAwareControl {
     }
     
     class func swizzle() {
-        println("Swizzling UIViewController viewDidLoad & viewWillAppear methods...")
+        println("[SobrKit] Swizzling UIViewController viewDidLoad & viewWillAppear methods...")
         UIViewController.swizzleMethodSelector("viewDidLoad", withSelector: "new_viewDidLoad", forClass: UIViewController.classForCoder())
         UIViewController.swizzleMethodSelector("viewWillAppear:", withSelector: "new_viewWillAppear:", forClass: UIViewController.classForCoder())
     }
@@ -548,10 +548,10 @@ extension UISegmentedControl: ModelAwareControl {
     //MARK: - Helpers
     private func registerDelegates() {
         var controls = self.modelAwareControlsInView(self.view)
-        debugPrintln("Found \(controls.count) model aware controls to register")
+        debugPrintln("[SobrKit] Found \(controls.count) model aware controls to register")
         for control in controls {
             if let keyPath = control.modelKeyPath {
-                debugPrintln("Bindable keyPath: \(keyPath)")
+                debugPrintln("[SobrKit] Bindable keyPath: \(keyPath)")
                 
                 control.prepare()
                 
@@ -574,7 +574,7 @@ extension UISegmentedControl: ModelAwareControl {
     
     func updateModelBindables() {
         var controls = self.modelAwareControlsInView(self.view)
-        debugPrintln("Updating \(controls.count) model aware controls")
+        debugPrintln("[SobrKit] Updating \(controls.count) model aware controls")
         for control in controls {
             if let keyPath = control.modelKeyPath {
                 if let value: AnyObject = self.valueForKeyPath(keyPath) {
@@ -672,7 +672,7 @@ extension UISegmentedControl: ModelAwareControl {
             
             if(value != nil) {
                 self.setValue(value, forKeyPath: keyPath)
-                debugPrintln("ModelAwareControl: Did set model keyPath: \(keyPath) to value \(value!)")
+                debugPrintln("[SobrKit] ModelAwareControl: Did set model keyPath: \(keyPath) to value \(value!)")
             }
         }
     }
