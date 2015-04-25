@@ -578,7 +578,7 @@ extension UISegmentedControl: ModelAwareControl {
         for control in controls {
             if let keyPath = control.modelKeyPath {
                 if let value: AnyObject = self.valueForKeyPath(keyPath) {
-                    debugPrintln("Setting UI keyPath \(keyPath) to value: \(value)")
+                    debugPrintln("[SobrKit] Setting UI keyPath \(keyPath) to value: \(value)")
                     if let modelAwareTextField = control as? UITextField {
                         if let stringValue = value as? String {
                             modelAwareTextField.text = stringValue
