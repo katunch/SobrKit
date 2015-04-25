@@ -47,9 +47,10 @@ Then, run the following command:
 $ pod install
 ```
 
-## Author
+## Authors
 
-Silas Knobel
+- Silas Knobel, https://github.com/katunch
+- Domenic Benz, https://github.com/domenicbenz
 
 ## License
 
