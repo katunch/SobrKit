@@ -157,7 +157,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0630;
-				ORGANIZATIONNAME = katun.ch;
+				ORGANIZATIONNAME = "Software Brauerei AG";
 				TargetAttributes = {
 					9479AFC01AEBABA500090C9C = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -409,6 +409,7 @@
 				9479AFE21AEBABA500090C9C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9479AFE31AEBABA500090C9C /* Build configuration list for PBXNativeTarget "SobrKit Example AppTests" */ = {
 			isa = XCConfigurationList;
@@ -417,6 +418,7 @@
 				9479AFE51AEBABA500090C9C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

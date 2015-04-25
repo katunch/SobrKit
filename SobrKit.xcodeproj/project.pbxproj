@@ -171,7 +171,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0630;
-				ORGANIZATIONNAME = katun.ch;
+				ORGANIZATIONNAME = "Software Brauerei AG";
 				TargetAttributes = {
 					9489EED51AEBA9B800D6A5AB = {
 						CreatedOnToolsVersion = 6.3.1;

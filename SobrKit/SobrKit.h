@@ -3,7 +3,7 @@
 //  SobrKit
 //
 //  Created by Silas Knobel on 25/04/15.
-//  Copyright (c) 2015 katun.ch. All rights reserved.
+//  Copyright (c) 2015 Software Brauerei AG. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
