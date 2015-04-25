@@ -23,16 +23,49 @@
 import Foundation
 import Alamofire
 
+/**
+*  Defines an object which can be instantiated from a serialized object.
+*/
 public protocol ResponseObjectSerializable: class {
+    /**
+    Init method which has to be implemented by the object to map the representation to the object.
+    
+    :param: response       `NSHTTPURLResponse`
+    :param: representation Representation of the parsed response body (By Alamofire).
+    
+    :returns: Instance of the object.
+    */
     init(response: NSHTTPURLResponse, representation: AnyObject)
 }
 
+
+/**
+*  Defines an object which can be instantiated from a serialized collection.
+*/
 public protocol ResponseCollectionSerializable: class {
+    /**
+    Init method which has to be implemented by the object to map a collection of representations to the object.
+    
+    :param: response       `NSHTTPURLResponse`
+    :param: representation Representation of the parsed response body (By Alamofire).
+    
+    :returns: Array of instances of the object.
+    */
     static func collection(#response: NSHTTPURLResponse, representation: AnyObject) -> [Self]
 }
 
+/**
+*  Defines some convenience response parsing methods for Alamofire.
+*/
 extension Alamofire.Request {
     
+    /**
+    JSON response to Object
+    
+    :param: completionHandler The completion handler
+    
+    :returns: Returns an Alamofire response.
+    */
     public func responseObject<T: ResponseObjectSerializable>(completionHandler: (NSURLRequest, NSHTTPURLResponse?, T?, NSError?) -> Void) -> Self {
         let serializer: Serializer = { (request, response, data) in
             let JSONSerializer = Request.JSONResponseSerializer(options: .AllowFragments)
@@ -50,6 +83,13 @@ extension Alamofire.Request {
         })
     }
     
+    /**
+    JSON response to an Array of objects.
+    
+    :param: completionHandler The completion handler.
+    
+    :returns: Returns an Alamofire response.
+    */
     public func responseCollection<T: ResponseCollectionSerializable>(completionHandler: (NSURLRequest, NSHTTPURLResponse?, [T], NSError?) -> Void) -> Self {
         let serializer: Serializer = { (request, response, data) in
             let JSONSerializer = Request.JSONResponseSerializer(options: .AllowFragments)
