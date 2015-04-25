@@ -55,23 +55,36 @@ func associatedObject<T>(object: AnyObject, associativeKey: UnsafePointer<Void>)
     }
 }
 
+/**
+*  Defines a control which is aware of an associated modelKeyPath.
+*/
 public protocol ModelAwareControl {
     
     //MARK: - Properties
+    /// The keyPath which the control is aware of.
     var modelKeyPath: String? {get set}
     
     //MARK: - Methods
+    /**
+    Check if the current input is valid.
+    
+    :returns: Returns `true` if the contents are valid. Otherwise `false`.
+    */
     func validate() -> Bool
+    
+    /**
+    This function is used by the controls to do some init stuff after it is recognized as a ModelAwareControl.
+    */
     func prepare()
 }
 
-
- extension UILabel: ModelAwareControl {
+extension UILabel: ModelAwareControl {
     
     private struct AssociatedKey {
         static var modelKeyPath = "modelKeyPath"
     }
     
+    /// See ModelAwareControl protocol
     @IBInspectable public var modelKeyPath: String? {
         get {
             return associatedObject(self, &AssociatedKey.modelKeyPath)
@@ -82,11 +95,11 @@ public protocol ModelAwareControl {
             }
         }
     }
-    
+    /// See ModelAwareControl protocol
     public func prepare() {
         
     }
-    
+    /// See ModelAwareControl protocol
     public func validate() -> Bool {
         return true
     }
@@ -103,6 +116,7 @@ extension UITextView: ModelAwareControl {
         static var normalBackgroundColor = "normalBackgroundColor"
     }
     
+    /// See ModelAwareControl protocol
     @IBInspectable public var modelKeyPath: String? {
         get {
             return associatedObject(self, &AssociatedKey.modelKeyPath)
@@ -170,11 +184,13 @@ extension UITextView: ModelAwareControl {
         }
     }
     
+    /// See ModelAwareControl protocol
     public func prepare() {
         self.normalBackgroundColor = self.backgroundColor
         self.validBackgroundColor = self.backgroundColor
     }
     
+    /// See ModelAwareControl protocol
     public func validate() -> Bool {
         var valid = self.isValid()
         
@@ -231,6 +247,7 @@ extension UITextField: ModelAwareControl {
         static var validationPattern = "validationPattern"
     }
     
+    /// See ModelAwareControl protocol
     @IBInspectable public var modelKeyPath: String? {
         get {
             return associatedObject(self, &AssociatedKey.modelKeyPath)
@@ -309,11 +326,13 @@ extension UITextField: ModelAwareControl {
         }
     }
     
+    /// See ModelAwareControl protocol
     public func prepare() {
         self.normalBackgroundColor = self.backgroundColor
         self.validBackgroundColor = self.backgroundColor
     }
     
+    /// See ModelAwareControl protocol
     public func validate() -> Bool {
         var valid = self.isValid()
         
@@ -378,6 +397,7 @@ extension UISwitch: ModelAwareControl {
         static var modelKeyPath = "modelKeyPath"
     }
     
+    /// See ModelAwareControl protocol
     @IBInspectable public var modelKeyPath: String? {
         get {
             return associatedObject(self, &AssociatedKey.modelKeyPath)
@@ -389,10 +409,12 @@ extension UISwitch: ModelAwareControl {
         }
     }
     
+    /// See ModelAwareControl protocol
     public func prepare() {
         
     }
     
+    /// See ModelAwareControl protocol
     public func validate() -> Bool {
         return true
     }
@@ -408,6 +430,7 @@ extension UISegmentedControl: ModelAwareControl {
         static var normalTintColor = "normalTintColor"
     }
     
+    /// See ModelAwareControl protocol
     @IBInspectable public var modelKeyPath: String? {
         get {
             return associatedObject(self, &AssociatedKey.modelKeyPath)
@@ -475,12 +498,14 @@ extension UISegmentedControl: ModelAwareControl {
         }
     }
     
+    /// See ModelAwareControl protocol
     public func prepare() {
         self.normalTintColor = self.tintColor
         self.errorTintColor = UIColor.redColor().colorWithAlphaComponent(0.5)
         self.validTintColor = self.tintColor
     }
     
+    /// See ModelAwareControl protocol
     public func validate() -> Bool {
         var valid = self.isValid()
         self.updateAppearance(valid)
@@ -516,12 +541,21 @@ extension UISegmentedControl: ModelAwareControl {
     }
 }
 
+
+/**
+*  Model aware UIViewController
+*/
  extension UIViewController: UITextFieldDelegate, UITextViewDelegate {
     
     struct Static {
         static var onceToken : dispatch_once_t = 0
     }
     
+    /**
+    This initialize method is used to swizzle `viewDidLoad` and `viewWillAppear:` methods.
+    
+    :returns: An instance of UIViewController
+    */
     override public class func initialize() {
         dispatch_once(&Static.onceToken) {
             UIViewController.swizzle()
@@ -572,6 +606,9 @@ extension UISegmentedControl: ModelAwareControl {
         }
     }
     
+    /**
+    Update all ModelAwareControls for the current `UIViewController`.
+    */
     public func updateModelBindables() {
         var controls = self.modelAwareControlsInView(self.view)
         debugPrintln("[SobrKit] Updating \(controls.count) model aware controls")
@@ -635,15 +672,32 @@ extension UISegmentedControl: ModelAwareControl {
     }
     
     //MARK: UITextFieldDelegate
+    
+    /**
+    Tells the delegate that editing stopped for the specified text field.
+    
+    :param: textField The text field for which editing ended.
+    */
     public func textFieldDidEndEditing(textField: UITextField) {
         textField.validate()
     }
     
     //MARK: UITextViewDelegate
+    
+    /**
+    Tells the delegate that the text or attributes in the specified text view were changed by the user.
+    
+    :param: textView The text view containing the changes.
+    */
     public func textViewDidChange(textView: UITextView) {
         self.valueChanged(textView)
     }
     
+    /**
+    Tells the delegate that editing of the specified text view has ended.
+    
+    :param: textView The text view in which editing ended.
+    */
     public func textViewDidEndEditing(textView: UITextView) {
         textView.validate()
     }
