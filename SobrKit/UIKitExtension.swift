@@ -23,6 +23,7 @@
 import UIKit
 
 public extension UIView {
+    /// Computed var for Interface Builder to set the corner radius.
     @IBInspectable var cornerRadius: CGFloat {
         get {
             return self.layer.cornerRadius
@@ -32,6 +33,8 @@ public extension UIView {
             self.layer.masksToBounds = newValue > 0
         }
     }
+    
+    /// Computed var for Interface Builder to set the border width.
     @IBInspectable var borderWidth: CGFloat {
         get {
             return self.layer.borderWidth
@@ -40,6 +43,8 @@ public extension UIView {
             self.layer.borderWidth = newValue
         }
     }
+    
+    /// Computed var for Interface Builder to set the border color.
     @IBInspectable var borderColor: UIColor {
         get {
             return UIColor(CGColor: self.layer.borderColor)!
