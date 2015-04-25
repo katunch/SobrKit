@@ -572,7 +572,7 @@ extension UISegmentedControl: ModelAwareControl {
         }
     }
     
-    func updateModelBindables() {
+    public func updateModelBindables() {
         var controls = self.modelAwareControlsInView(self.view)
         debugPrintln("[SobrKit] Updating \(controls.count) model aware controls")
         for control in controls {
