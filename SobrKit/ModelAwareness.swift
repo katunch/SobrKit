@@ -101,7 +101,7 @@ extension UILabel: ModelAwareControl {
     }
     
     /// See ModelAwareControl protocol
-    @IBInspectable var realtime: Bool {
+    @IBInspectable public var realtime: Bool {
         get {
             if let rt: Bool = associatedObject(self, &AssociatedKey.realtime) {
                 return rt
@@ -151,7 +151,7 @@ extension UITextView: ModelAwareControl {
     }
     
     /// See ModelAwareControl protocol
-    @IBInspectable var realtime: Bool {
+    @IBInspectable public var realtime: Bool {
         get {
             if let rt: Bool = associatedObject(self, &AssociatedKey.realtime) {
                 return rt
@@ -298,7 +298,7 @@ extension UITextField: ModelAwareControl {
     }
     
     /// See ModelAwareControl protocol
-    @IBInspectable var realtime: Bool {
+    @IBInspectable public var realtime: Bool {
         get {
             if let rt: Bool = associatedObject(self, &AssociatedKey.realtime) {
                 return rt
@@ -464,7 +464,7 @@ extension UISwitch: ModelAwareControl {
     }
     
     /// See ModelAwareControl protocol
-    @IBInspectable var realtime: Bool {
+    @IBInspectable public var realtime: Bool {
         get {
             if let rt: Bool = associatedObject(self, &AssociatedKey.realtime) {
                 return rt
@@ -513,7 +513,7 @@ extension UISegmentedControl: ModelAwareControl {
     }
     
     /// See ModelAwareControl protocol
-    @IBInspectable var realtime: Bool {
+    @IBInspectable public var realtime: Bool {
         get {
             if let rt: Bool = associatedObject(self, &AssociatedKey.realtime) {
                 return rt
@@ -648,10 +648,10 @@ extension UISegmentedControl: ModelAwareControl {
     }
     
     class func swizzle() {
-        println("[SobrKit] Swizzling UIViewController viewDidLoad & viewWillAppear methods...")
+        debugPrintln("[SobrKit] Swizzling UIViewController viewDidLoad & viewWillAppear methods...")
         UIViewController.swizzleMethodSelector("viewDidLoad", withSelector: "new_viewDidLoad", forClass: UIViewController.classForCoder())
         UIViewController.swizzleMethodSelector("viewWillAppear:", withSelector: "new_viewWillAppear:", forClass: UIViewController.classForCoder())
-        UIViewController.swizzleMethodSelector("viewWillAppear:", withSelector: "new_viewWillDisappear:", forClass: UIViewController.classForCoder())
+        UIViewController.swizzleMethodSelector("viewWillDisappear:", withSelector: "new_viewWillDisappear:", forClass: UIViewController.classForCoder())
     }
     
     //MARK: - view lifecycle
@@ -662,6 +662,10 @@ extension UISegmentedControl: ModelAwareControl {
     
     func new_viewWillAppear(animated: Bool) {
         self.new_viewWillAppear(animated)
+        var controls = self.modelAwareControlsInView(self.view)
+        for control in controls {
+            self.setupObserving(control)
+        }
         self.updateModelBindables()
     }
     
@@ -678,7 +682,6 @@ extension UISegmentedControl: ModelAwareControl {
             if let keyPath = control.modelKeyPath {
                 debugPrintln("[SobrKit] Bindable keyPath: \(keyPath)")
                 
-                self.setupObserving(control)
                 control.prepare()
                 
                 if let modelAwareTextField = control as? UITextField {
@@ -705,36 +708,11 @@ extension UISegmentedControl: ModelAwareControl {
         var controls = self.modelAwareControlsInView(self.view)
         debugPrintln("[SobrKit] Updating \(controls.count) model aware controls")
         for control in controls {
+            
             if let keyPath = control.modelKeyPath {
                 if let value: AnyObject = self.valueForKeyPath(keyPath) {
-                    debugPrintln("[SobrKit] Setting UI keyPath \(keyPath) to value: \(value)")
-                    if let modelAwareTextField = control as? UITextField {
-                        if let stringValue = value as? String {
-                            modelAwareTextField.text = stringValue
-                        }
-                    }
-                    if let modelAwareTextView = control as? UITextView {
-                        if let stringValue = value as? String {
-                            modelAwareTextView.text = stringValue
-                        }
-                    }
-                    else if let modelAwareSwitch = control as? UISwitch {
-                        if let boolValue = value as? Bool {
-                            modelAwareSwitch.on = boolValue
-                        }
-                    }
-                    else if let modelAwareSegmentedControl = control as? UISegmentedControl {
-                        if let intValue = value as? Int {
-                            modelAwareSegmentedControl.selectedSegmentIndex = intValue
-                        }
-                    }
-                    else if let modelAwareLabel = control as? UILabel {
-                        if let stringValue = value as? String {
-                            modelAwareLabel.text = stringValue
-                        }
-                    }
+                    self.updateControl(value, control: control)
                 }
-                
             }
         }
     }
@@ -748,6 +726,24 @@ extension UISegmentedControl: ModelAwareControl {
                 results += self.modelAwareControlsInView(subview)
             }
         }
+        return results
+    }
+    
+    func controlsForModelKeyPath(keyPath: String) -> [ModelAwareControl] {
+        
+        var results = [ModelAwareControl]()
+        
+        var controls = self.modelAwareControlsInView(self.view)
+        debugPrintln("[SobrKit] Scanning \(controls.count) model aware controls for keyPath \(keyPath)...")
+        
+        for control in controls {
+            if let controlKeyPath = control.modelKeyPath {
+                if controlKeyPath == keyPath {
+                    results.append(control)
+                }
+            }
+        }
+        
         return results
     }
     
@@ -864,13 +860,13 @@ extension UISegmentedControl: ModelAwareControl {
         if let keyPath = control.modelKeyPath {
             if control.realtime {
                 debugPrintln("[SobrKit] Setting up observer for control with keyPath \(keyPath)")
-                self.addObserver(self, forKeyPath: keyPath, options: nil, context: nil)
+                let options = NSKeyValueObservingOptions.New | NSKeyValueObservingOptions.Old
+                self.addObserver(self, forKeyPath: keyPath, options: options, context: nil)
             }
         }
     }
     
     public override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
-        
         debugPrintln("[SobrKit] Observed change keyPath: \(keyPath) of object: \(object)")
         
         if let value: AnyObject = self.valueForKeyPath(keyPath)  {
@@ -888,7 +884,8 @@ extension UISegmentedControl: ModelAwareControl {
         for control in controls {
             if let keyPath = control.modelKeyPath {
                 if control.realtime {
-                    removeObserver(self, forKeyPath: keyPath)
+                    debugPrintln("[SobrKit] remove obersver for keyPath \(keyPath)")
+                    self.removeObserver(self, forKeyPath: keyPath)
                 }
             }
         }
