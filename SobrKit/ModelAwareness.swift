@@ -64,6 +64,9 @@ public protocol ModelAwareControl {
     /// The keyPath which the control is aware of.
     var modelKeyPath: String? {get set}
     
+    /// Tells the control if it should observe the `modelKeyPath` in realtime and apply changes.
+    var realtime: Bool {get set}
+    
     //MARK: - Methods
     /**
     Check if the current input is valid.
@@ -82,6 +85,7 @@ extension UILabel: ModelAwareControl {
     
     private struct AssociatedKey {
         static var modelKeyPath = "modelKeyPath"
+        static var realtime = "realtime"
     }
     
     /// See ModelAwareControl protocol
@@ -95,10 +99,27 @@ extension UILabel: ModelAwareControl {
             }
         }
     }
+    
+    /// See ModelAwareControl protocol
+    @IBInspectable var realtime: Bool {
+        get {
+            if let rt: Bool = associatedObject(self, &AssociatedKey.realtime) {
+                return rt
+            }
+            else{
+                return false
+            }
+        }
+        set {
+            setAssociatedObject(self, newValue, &AssociatedKey.realtime, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+        }
+    }
+    
     /// See ModelAwareControl protocol
     public func prepare() {
         
     }
+    
     /// See ModelAwareControl protocol
     public func validate() -> Bool {
         return true
@@ -110,6 +131,7 @@ extension UITextView: ModelAwareControl {
     
     private struct AssociatedKey {
         static var modelKeyPath = "modelKeyPath"
+        static var realtime = "realtime"
         static var required = "required"
         static var errorBackgroundColor = "errorBackgroundColor"
         static var validBackgroundColor = "validBackgroundColor"
@@ -125,6 +147,21 @@ extension UITextView: ModelAwareControl {
             if let value = newValue {
                 setAssociatedObject(self, value, &AssociatedKey.modelKeyPath, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
             }
+        }
+    }
+    
+    /// See ModelAwareControl protocol
+    @IBInspectable var realtime: Bool {
+        get {
+            if let rt: Bool = associatedObject(self, &AssociatedKey.realtime) {
+                return rt
+            }
+            else{
+                return false
+            }
+        }
+        set {
+            setAssociatedObject(self, newValue, &AssociatedKey.realtime, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
         }
     }
     
@@ -240,6 +277,7 @@ extension UITextField: ModelAwareControl {
     
     private struct AssociatedKey {
         static var modelKeyPath = "modelKeyPath"
+        static var realtime = "realtime"
         static var required = "required"
         static var errorBackgroundColor = "errorBackgroundColor"
         static var validBackgroundColor = "validBackgroundColor"
@@ -256,6 +294,21 @@ extension UITextField: ModelAwareControl {
             if let value = newValue {
                 setAssociatedObject(self, value, &AssociatedKey.modelKeyPath, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
             }
+        }
+    }
+    
+    /// See ModelAwareControl protocol
+    @IBInspectable var realtime: Bool {
+        get {
+            if let rt: Bool = associatedObject(self, &AssociatedKey.realtime) {
+                return rt
+            }
+            else{
+                return false
+            }
+        }
+        set {
+            setAssociatedObject(self, newValue, &AssociatedKey.realtime, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
         }
     }
     
@@ -395,6 +448,7 @@ extension UISwitch: ModelAwareControl {
     
     private struct AssociatedKey {
         static var modelKeyPath = "modelKeyPath"
+        static var realtime = "realtime"
     }
     
     /// See ModelAwareControl protocol
@@ -406,6 +460,21 @@ extension UISwitch: ModelAwareControl {
             if let value = newValue {
                 setAssociatedObject(self, value, &AssociatedKey.modelKeyPath, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
             }
+        }
+    }
+    
+    /// See ModelAwareControl protocol
+    @IBInspectable var realtime: Bool {
+        get {
+            if let rt: Bool = associatedObject(self, &AssociatedKey.realtime) {
+                return rt
+            }
+            else{
+                return false
+            }
+        }
+        set {
+            setAssociatedObject(self, newValue, &AssociatedKey.realtime, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
         }
     }
     
@@ -424,6 +493,7 @@ extension UISegmentedControl: ModelAwareControl {
     
     private struct AssociatedKey {
         static var modelKeyPath = "modelKeyPath"
+        static var realtime = "realtime"
         static var required = "required"
         static var errorTintColor = "errorTintColor"
         static var validTintColor = "validTintColor"
@@ -439,6 +509,21 @@ extension UISegmentedControl: ModelAwareControl {
             if let value = newValue {
                 setAssociatedObject(self, value, &AssociatedKey.modelKeyPath, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
             }
+        }
+    }
+    
+    /// See ModelAwareControl protocol
+    @IBInspectable var realtime: Bool {
+        get {
+            if let rt: Bool = associatedObject(self, &AssociatedKey.realtime) {
+                return rt
+            }
+            else{
+                return false
+            }
+        }
+        set {
+            setAssociatedObject(self, newValue, &AssociatedKey.realtime, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
         }
     }
     
@@ -566,6 +651,7 @@ extension UISegmentedControl: ModelAwareControl {
         println("[SobrKit] Swizzling UIViewController viewDidLoad & viewWillAppear methods...")
         UIViewController.swizzleMethodSelector("viewDidLoad", withSelector: "new_viewDidLoad", forClass: UIViewController.classForCoder())
         UIViewController.swizzleMethodSelector("viewWillAppear:", withSelector: "new_viewWillAppear:", forClass: UIViewController.classForCoder())
+        UIViewController.swizzleMethodSelector("viewWillAppear:", withSelector: "new_viewWillDisappear:", forClass: UIViewController.classForCoder())
     }
     
     //MARK: - view lifecycle
@@ -579,6 +665,11 @@ extension UISegmentedControl: ModelAwareControl {
         self.updateModelBindables()
     }
     
+    func new_viewWillDisappear(animated: Bool) {
+        self.removeObservers()
+        self.new_viewWillDisappear(animated)
+    }
+    
     //MARK: - Helpers
     private func registerDelegates() {
         var controls = self.modelAwareControlsInView(self.view)
@@ -587,6 +678,7 @@ extension UISegmentedControl: ModelAwareControl {
             if let keyPath = control.modelKeyPath {
                 debugPrintln("[SobrKit] Bindable keyPath: \(keyPath)")
                 
+                self.setupObserving(control)
                 control.prepare()
                 
                 if let modelAwareTextField = control as? UITextField {
@@ -671,6 +763,64 @@ extension UISegmentedControl: ModelAwareControl {
         return valid
     }
     
+    func updateControl(value: AnyObject?, control: ModelAwareControl){
+        if let keyPath = control.modelKeyPath {
+            debugPrintln("[SobrKit] Setting UI keyPath \(keyPath) to value: \(value)")
+            if let modelAwareTextField = control as? UITextField {
+                if let stringValue = value as? String {
+                    modelAwareTextField.text = stringValue
+                }
+            }
+            if let modelAwareTextView = control as? UITextView {
+                if let stringValue = value as? String {
+                    modelAwareTextView.text = stringValue
+                }
+            }
+            else if let modelAwareSwitch = control as? UISwitch {
+                if let boolValue = value as? Bool {
+                    modelAwareSwitch.on = boolValue
+                }
+            }
+            else if let modelAwareSegmentedControl = control as? UISegmentedControl {
+                if let intValue = value as? Int {
+                    modelAwareSegmentedControl.selectedSegmentIndex = intValue
+                }
+            }
+            else if let modelAwareLabel = control as? UILabel {
+                if let stringValue = value as? String {
+                    modelAwareLabel.text = stringValue
+                }
+            }
+        }
+    }
+    
+    func updateModel(control: ModelAwareControl) {
+        if let keyPath = control.modelKeyPath {
+            var value: AnyObject?
+            
+            if let modelAwareTextField = control as? UITextField {
+                value = modelAwareTextField.text
+            }
+            else if let modelAwareTextView = control as? UITextView {
+                value = modelAwareTextView.text
+            }
+            else if let modelAwareSwitch = control as? UISwitch {
+                value = modelAwareSwitch.on
+            }
+            else if let modelAwareSegmentedControl = control as? UISegmentedControl {
+                value = modelAwareSegmentedControl.selectedSegmentIndex
+            }
+            else if let modelAwareLabel = control as? UILabel {
+                value = modelAwareLabel.text
+            }
+            
+            if(value != nil){
+                self.setValue(value, forKeyPath: keyPath)
+                debugPrintln("[SobrKit] ModelAwareControl: Did set model keyPath: \(keyPath) to value \(value!)")
+            }
+        }
+    }
+    
     //MARK: UITextFieldDelegate
     
     /**
@@ -704,29 +854,42 @@ extension UISegmentedControl: ModelAwareControl {
     
     //MARK: - value changed target
     func valueChanged(sender: AnyObject) {
-        if let modelAwareControl = sender as? ModelAwareControl, let keyPath = modelAwareControl.modelKeyPath {
+        if let control = sender as? ModelAwareControl {
+            self.updateModel(control)
+        }
+    }
+    
+    //MARK: - KVO
+    private func setupObserving(control: ModelAwareControl) {
+        if let keyPath = control.modelKeyPath {
+            if control.realtime {
+                debugPrintln("[SobrKit] Setting up observer for control with keyPath \(keyPath)")
+                self.addObserver(self, forKeyPath: keyPath, options: nil, context: nil)
+            }
+        }
+    }
+    
+    public override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+        
+        debugPrintln("[SobrKit] Observed change keyPath: \(keyPath) of object: \(object)")
+        
+        if let value: AnyObject = self.valueForKeyPath(keyPath)  {
+            var controls = self.controlsForModelKeyPath(keyPath)
             
-            var value: AnyObject?
-            
-            if let modelAwareTextField = modelAwareControl as? UITextField {
-                value = modelAwareTextField.text
+            for control in controls {
+                self.updateControl(value, control: control)
             }
-            else if let modelAwareTextView = modelAwareControl as? UITextView {
-                value = modelAwareTextView.text
-            }
-            else if let modelAwareSwitch = modelAwareControl as? UISwitch {
-                value = modelAwareSwitch.on
-            }
-            else if let modelAwareSegmentedControl = modelAwareControl as? UISegmentedControl {
-                value = modelAwareSegmentedControl.selectedSegmentIndex
-            }
-            else if let modelAwareLabel = modelAwareControl as? UILabel {
-                value = modelAwareLabel.text
-            }
-            
-            if(value != nil) {
-                self.setValue(value, forKeyPath: keyPath)
-                debugPrintln("[SobrKit] ModelAwareControl: Did set model keyPath: \(keyPath) to value \(value!)")
+        }
+    }
+    
+    private func removeObservers() {
+        var controls = self.modelAwareControlsInView(self.view)
+        
+        for control in controls {
+            if let keyPath = control.modelKeyPath {
+                if control.realtime {
+                    removeObserver(self, forKeyPath: keyPath)
+                }
             }
         }
     }
