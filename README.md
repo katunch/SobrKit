@@ -12,6 +12,9 @@ SobrKit is a collection of UIKit, Foundation and other extensions written in Swi
 - iOS 8.0+
 - Xcode 6.3
 
+## Dependencies
+- [Alamofire](https://github.com/Alamofire/Alamofire)
+
 ## Communication
 - If you **found a bug**, open an issue.
 - If you **have a feature request**, open an issue.
@@ -46,6 +49,8 @@ Then, run the following command:
 ```bash
 $ pod install
 ```
+
+> SobrKit will install `pod 'Alamofire', '~> 1.2'` as dependency.
 
 ## Authors
 
