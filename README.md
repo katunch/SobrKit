@@ -52,6 +52,11 @@ $ pod install
 
 > SobrKit will install `pod 'Alamofire', '~> 1.2'` as dependency.
 
+## Usage
+
+See [SobrKit-Example](https://github.com/softwarebrauerei/SobrKit-Example) for details.
+
+
 ## Authors
 
 - Silas Knobel, https://github.com/katunch
