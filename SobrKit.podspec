@@ -4,8 +4,7 @@ Pod::Spec.new do |s|
   s.summary          = "A collection of UIKit, Foundation and other extensions written in Swift"
   s.homepage         = "https://github.com/softwarebrauerei/SobrKit"
   s.license          = 'MIT'
-  s.authors          = { "Silas Knobel" => "silas.knobel@ksoftware-brauerei.ch",
-                         "Domenic Benz" => "domenic.benz@software-brauerei.ch" }
+  s.authors          = { "Software Brauerei AG" => "contact@ksoftware-brauerei.ch"}
   s.source           = { :git => "https://github.com/softwarebrauerei/SobrKit.git", :tag => s.version.to_s }
 
   s.platform     = :ios, '8.0'
