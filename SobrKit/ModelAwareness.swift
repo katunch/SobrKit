@@ -849,7 +849,12 @@ extension UISegmentedControl: ModelAwareControl {
     }
     
     //MARK: - value changed target
-    func valueChanged(sender: AnyObject) {
+    /**
+    Event for value changed
+    
+    :param: sender Sender object
+    */
+    public func valueChanged(sender: AnyObject) {
         if let control = sender as? ModelAwareControl {
             self.updateModel(control)
         }
