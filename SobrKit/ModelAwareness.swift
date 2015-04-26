@@ -648,7 +648,7 @@ extension UISegmentedControl: ModelAwareControl {
     }
     
     class func swizzle() {
-        debugPrintln("[SobrKit] Swizzling UIViewController viewDidLoad & viewWillAppear methods...")
+//        debugPrintln("[SobrKit] Swizzling UIViewController viewDidLoad & viewWillAppear methods...")
         UIViewController.swizzleMethodSelector("viewDidLoad", withSelector: "new_viewDidLoad", forClass: UIViewController.classForCoder())
         UIViewController.swizzleMethodSelector("viewWillAppear:", withSelector: "new_viewWillAppear:", forClass: UIViewController.classForCoder())
         UIViewController.swizzleMethodSelector("viewWillDisappear:", withSelector: "new_viewWillDisappear:", forClass: UIViewController.classForCoder())
@@ -677,10 +677,10 @@ extension UISegmentedControl: ModelAwareControl {
     //MARK: - Helpers
     private func registerDelegates() {
         var controls = self.modelAwareControlsInView(self.view)
-        debugPrintln("[SobrKit] Found \(controls.count) model aware controls to register")
+//        debugPrintln("[SobrKit] Found \(controls.count) model aware controls to register")
         for control in controls {
             if let keyPath = control.modelKeyPath {
-                debugPrintln("[SobrKit] Bindable keyPath: \(keyPath)")
+//                debugPrintln("[SobrKit] Bindable keyPath: \(keyPath)")
                 
                 control.prepare()
                 
@@ -706,7 +706,7 @@ extension UISegmentedControl: ModelAwareControl {
     */
     public func updateModelBindables() {
         var controls = self.modelAwareControlsInView(self.view)
-        debugPrintln("[SobrKit] Updating \(controls.count) model aware controls")
+//        debugPrintln("[SobrKit] Updating \(controls.count) model aware controls")
         for control in controls {
             
             if let keyPath = control.modelKeyPath {
@@ -734,7 +734,7 @@ extension UISegmentedControl: ModelAwareControl {
         var results = [ModelAwareControl]()
         
         var controls = self.modelAwareControlsInView(self.view)
-        debugPrintln("[SobrKit] Scanning \(controls.count) model aware controls for keyPath \(keyPath)...")
+//        debugPrintln("[SobrKit] Scanning \(controls.count) model aware controls for keyPath \(keyPath)...")
         
         for control in controls {
             if let controlKeyPath = control.modelKeyPath {
@@ -761,7 +761,7 @@ extension UISegmentedControl: ModelAwareControl {
     
     func updateControl(value: AnyObject?, control: ModelAwareControl){
         if let keyPath = control.modelKeyPath {
-            debugPrintln("[SobrKit] Setting UI keyPath \(keyPath) to value: \(value)")
+//            debugPrintln("[SobrKit] Setting UI keyPath \(keyPath) to value: \(value)")
             if let modelAwareTextField = control as? UITextField {
                 if let stringValue = value as? String {
                     modelAwareTextField.text = stringValue
@@ -812,7 +812,7 @@ extension UISegmentedControl: ModelAwareControl {
             
             if(value != nil){
                 self.setValue(value, forKeyPath: keyPath)
-                debugPrintln("[SobrKit] ModelAwareControl: Did set model keyPath: \(keyPath) to value \(value!)")
+//                debugPrintln("[SobrKit] ModelAwareControl: Did set model keyPath: \(keyPath) to value \(value!)")
             }
         }
     }
@@ -859,7 +859,7 @@ extension UISegmentedControl: ModelAwareControl {
     private func setupObserving(control: ModelAwareControl) {
         if let keyPath = control.modelKeyPath {
             if control.realtime {
-                debugPrintln("[SobrKit] Setting up observer for control with keyPath \(keyPath)")
+//                debugPrintln("[SobrKit] Setting up observer for control with keyPath \(keyPath)")
                 let options = NSKeyValueObservingOptions.New | NSKeyValueObservingOptions.Old
                 self.addObserver(self, forKeyPath: keyPath, options: options, context: nil)
             }
@@ -867,7 +867,7 @@ extension UISegmentedControl: ModelAwareControl {
     }
     
     public override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
-        debugPrintln("[SobrKit] Observed change keyPath: \(keyPath) of object: \(object)")
+//        debugPrintln("[SobrKit] Observed change keyPath: \(keyPath) of object: \(object)")
         
         if let value: AnyObject = self.valueForKeyPath(keyPath)  {
             var controls = self.controlsForModelKeyPath(keyPath)
@@ -884,7 +884,7 @@ extension UISegmentedControl: ModelAwareControl {
         for control in controls {
             if let keyPath = control.modelKeyPath {
                 if control.realtime {
-                    debugPrintln("[SobrKit] remove obersver for keyPath \(keyPath)")
+//                    debugPrintln("[SobrKit] remove obersver for keyPath \(keyPath)")
                     self.removeObserver(self, forKeyPath: keyPath)
                 }
             }
