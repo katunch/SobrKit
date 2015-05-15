@@ -208,16 +208,13 @@ public extension NSURL {
 }
 
 //MARK: - NSDate
-extension NSDate
-{
-    func isGreaterThanDate(dateToCompare : NSDate) -> Bool
-    {
+extension NSDate {
+    func isGreaterThanDate(dateToCompare : NSDate) -> Bool {
         //Declare Variables
         var isGreater = false
         
         //Compare Values
-        if self.compare(dateToCompare) == NSComparisonResult.OrderedDescending
-        {
+        if self.compare(dateToCompare) == NSComparisonResult.OrderedDescending {
             isGreater = true
         }
         
@@ -226,14 +223,12 @@ extension NSDate
     }
     
     
-    func isLessThanDate(dateToCompare : NSDate) -> Bool
-    {
+    func isLessThanDate(dateToCompare : NSDate) -> Bool {
         //Declare Variables
         var isLess = false
         
         //Compare Values
-        if self.compare(dateToCompare) == NSComparisonResult.OrderedAscending
-        {
+        if self.compare(dateToCompare) == NSComparisonResult.OrderedAscending {
             isLess = true
         }
         
@@ -242,14 +237,12 @@ extension NSDate
     }
     
     
-    func isEqualToDate(dateToCompare : NSDate) -> Bool
-    {
+    func isEqualToDate(dateToCompare : NSDate) -> Bool {
         //Declare Variables
         var isEqualTo = false
         
         //Compare Values
-        if self.compare(dateToCompare) == NSComparisonResult.OrderedSame
-        {
+        if self.compare(dateToCompare) == NSComparisonResult.OrderedSame {
             isEqualTo = true
         }
         
@@ -259,8 +252,7 @@ extension NSDate
     
     
     
-    func addDays(daysToAdd : Int) -> NSDate
-    {
+    func addDays(daysToAdd : Int) -> NSDate {
         var secondsInDays : NSTimeInterval = Double(daysToAdd) * 60 * 60 * 24
         var dateWithDaysAdded : NSDate = self.dateByAddingTimeInterval(secondsInDays)
         
@@ -269,8 +261,7 @@ extension NSDate
     }
     
     
-    func addHours(hoursToAdd : Int) -> NSDate
-    {
+    func addHours(hoursToAdd : Int) -> NSDate {
         var secondsInHours : NSTimeInterval = Double(hoursToAdd) * 60 * 60
         var dateWithHoursAdded : NSDate = self.dateByAddingTimeInterval(secondsInHours)
         
