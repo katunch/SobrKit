@@ -419,10 +419,10 @@ extension UITextField: ModelAwareControl {
         if valid && self.validationPattern != nil {
             if let value = self.text {
                 if self.validationPattern!.lowercaseString == "email" {
-                    valid = value.isValidEmail()
+                    valid = (value.isEmpty || value.isValidEmail())
                 }
                 else {
-                    valid = value.matchesRegex(validationPattern!)
+                    valid = (value.isEmpty || value.matchesRegex(validationPattern!))
                 }
             }
         }
