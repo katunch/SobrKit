@@ -236,7 +236,7 @@ extension UITextView: ModelAwareControl {
         return valid
     }
     
-    private func isValid() -> Bool {
+    public func isValid() -> Bool {
         var valid = true
         
         if self.required {
@@ -394,7 +394,7 @@ extension UITextField: ModelAwareControl {
         return valid
     }
     
-    private func isValid() -> Bool {
+    public func isValid() -> Bool {
         var valid = true
         
         if self.required {
@@ -603,7 +603,7 @@ extension UISegmentedControl: ModelAwareControl {
         return valid
     }
     
-    private func isValid() -> Bool {
+    public func isValid() -> Bool {
         var valid = true
         
         if self.required {

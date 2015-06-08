@@ -236,22 +236,6 @@ public extension NSDate {
         return isLess
     }
     
-    
-    func isEqualToDate(dateToCompare : NSDate) -> Bool {
-        //Declare Variables
-        var isEqualTo = false
-        
-        //Compare Values
-        if self.compare(dateToCompare) == NSComparisonResult.OrderedSame {
-            isEqualTo = true
-        }
-        
-        //Return Result
-        return isEqualTo
-    }
-    
-    
-    
     func addDays(daysToAdd : Int) -> NSDate {
         var secondsInDays : NSTimeInterval = Double(daysToAdd) * 60 * 60 * 24
         var dateWithDaysAdded : NSDate = self.dateByAddingTimeInterval(secondsInDays)
