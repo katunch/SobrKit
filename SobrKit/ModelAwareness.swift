@@ -236,7 +236,7 @@ extension UITextView: ModelAwareControl {
         return valid
     }
     
-    private func isValid() -> Bool {
+    public func isValid() -> Bool {
         var valid = true
         
         if self.required {
@@ -394,7 +394,7 @@ extension UITextField: ModelAwareControl {
         return valid
     }
     
-    private func isValid() -> Bool {
+    public func isValid() -> Bool {
         var valid = true
         
         if self.required {
@@ -419,10 +419,10 @@ extension UITextField: ModelAwareControl {
         if valid && self.validationPattern != nil {
             if let value = self.text {
                 if self.validationPattern!.lowercaseString == "email" {
-                    valid = value.isValidEmail()
+                    valid = (value.isEmpty || value.isValidEmail())
                 }
                 else {
-                    valid = value.matchesRegex(validationPattern!)
+                    valid = (value.isEmpty || value.matchesRegex(validationPattern!))
                 }
             }
         }
@@ -430,7 +430,13 @@ extension UITextField: ModelAwareControl {
         return valid
     }
     
-    private func updateAppearance(valid: Bool) {
+    /**
+    Updates the apperance of the text field. useful for custom validations.
+    
+    :param: valid true if input is valid. otherwise false
+    
+    */
+    public func updateAppearance(valid: Bool) {
         if valid {
             if self.validBackgroundColor != nil {
                 self.backgroundColor = self.validBackgroundColor
@@ -597,7 +603,7 @@ extension UISegmentedControl: ModelAwareControl {
         return valid
     }
     
-    private func isValid() -> Bool {
+    public func isValid() -> Bool {
         var valid = true
         
         if self.required {

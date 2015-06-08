@@ -1,10 +1,10 @@
 Pod::Spec.new do |s|
   s.name             = "SobrKit"
-  s.version          = "0.1.1"
+  s.version          = "0.1.2"
   s.summary          = "A collection of UIKit, Foundation and other extensions written in Swift"
   s.homepage         = "https://github.com/softwarebrauerei/SobrKit"
   s.license          = 'MIT'
-  s.authors          = { "Software Brauerei AG" => "contact@ksoftware-brauerei.ch"}
+  s.authors          = { "Software Brauerei AG" => "contact@software-brauerei.ch"}
   s.source           = { :git => "https://github.com/softwarebrauerei/SobrKit.git", :tag => s.version.to_s }
 
   s.platform     = :ios, '8.0'
