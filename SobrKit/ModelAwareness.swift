@@ -430,7 +430,13 @@ extension UITextField: ModelAwareControl {
         return valid
     }
     
-    private func updateAppearance(valid: Bool) {
+    /**
+    Updates the apperance of the text field. useful for custom validations.
+    
+    :param: valid true if input is valid. otherwise false
+    
+    */
+    public func updateAppearance(valid: Bool) {
         if valid {
             if self.validBackgroundColor != nil {
                 self.backgroundColor = self.validBackgroundColor

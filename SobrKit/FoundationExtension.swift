@@ -208,7 +208,7 @@ public extension NSURL {
 }
 
 //MARK: - NSDate
-extension NSDate {
+public extension NSDate {
     func isGreaterThanDate(dateToCompare : NSDate) -> Bool {
         //Declare Variables
         var isGreater = false
