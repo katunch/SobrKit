@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "SobrKit"
-  s.version          = "0.1.3"
+  s.version          = "2.0.0"
   s.summary          = "A collection of UIKit, Foundation and other extensions written in Swift"
   s.homepage         = "https://github.com/softwarebrauerei/SobrKit"
   s.license          = 'MIT'
@@ -10,7 +10,6 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '8.0'
   s.ios.deployment_target = '8.0'
 
-  s.dependency 'Alamofire', '~> 1.2.3'
   s.source_files = 'SobrKit/*.swift'
   s.requires_arc = true
 end
