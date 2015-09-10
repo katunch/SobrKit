@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "SobrKit"
-  s.version          = "0.1.3"
+  s.version          = "2.0.0"
   s.summary          = "A collection of UIKit, Foundation and other extensions written in Swift"
   s.homepage         = "https://github.com/softwarebrauerei/SobrKit"
   s.license          = 'MIT'

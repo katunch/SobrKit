@@ -3,6 +3,10 @@ SobrKit
 
 SobrKit is a collection of UIKit, Foundation and other extensions written in Swift.
 
+## API Breaking Changes
+SobrKit does not depend on Alamofire anymore! This will break (maybe) your app. If your app depends on the Alamofire extensions of SobrKit, be sure to use the 1.x version!
+
+
 ## Features
 - Bind UI elements to your model directly in Interface Builder
 - Convenience methods on Foundation classes
