@@ -10,7 +10,6 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '8.0'
   s.ios.deployment_target = '8.0'
 
-  s.dependency 'Alamofire', '~> 1.2.3'
   s.source_files = 'SobrKit/*.swift'
   s.requires_arc = true
 end

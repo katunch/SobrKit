@@ -27,7 +27,7 @@ public extension String {
     /// Convenience property to `count(self) as Int`.
     var length: Int {
         get {
-            return count(self) as Int
+            return self.characters.count as Int
         }
     }
     
@@ -36,7 +36,7 @@ public extension String {
     
     This method uses `NSLocalizedString`
     
-    :returns: Returns a localized version of a string.
+    - returns: Returns a localized version of a string.
     */
     func localized() -> String {
         return NSLocalizedString(self, tableName: nil, bundle: NSBundle.mainBundle(), value: "", comment: "")
@@ -45,9 +45,9 @@ public extension String {
     /**
     Searching for the string format in your `Localizable.strings` in `NSBundle.mainBundle()` file and returns it's value.
     
-    :param: args A list of `arguments` to substitute into format.
+    - parameter args: A list of `arguments` to substitute into format.
     
-    :returns: Returns a localized version of a string.
+    - returns: Returns a localized version of a string.
     */
     func localizedFormat(args: CVarArgType) -> String {
         return NSString(format: self.localized(), args) as String
@@ -56,7 +56,7 @@ public extension String {
     /**
     Returns a Boolean value indicating whether the string is a valid email address.
     
-    :returns: Returns `true` if the string is a valid email address otherwise it returns `false`.
+    - returns: Returns `true` if the string is a valid email address otherwise it returns `false`.
     */
     func isValidEmail() -> Bool {
         return self.matchesRegex("[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}")
@@ -65,12 +65,12 @@ public extension String {
     /**
     Returns a Boolean value indicating whether the string matches the given regex pattern.
     
-    :param: regex A Regex pattern
+    - parameter regex: A Regex pattern
     
-    :returns: Returns `true` if the string matches the regex. Otherwise `false`.
+    - returns: Returns `true` if the string matches the regex. Otherwise `false`.
     */
     func matchesRegex(regex: String) -> Bool {
-        var test = NSPredicate(format:"SELF MATCHES %@", regex)
+        let test = NSPredicate(format:"SELF MATCHES %@", regex)
         let result = test.evaluateWithObject(self)
         return result
     }
@@ -78,17 +78,17 @@ public extension String {
     /**
     Returns a new String without whitespaces.
     
-    :returns: String without whitespaces.
+    - returns: String without whitespaces.
     */
     func condenseWhitespace() -> String {
         let components = self.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-        return "".join(components)
+        return components.joinWithSeparator("")
     }
     
     /**
     Returns a Boolean value indicating whether the string is equal to "true".
     
-    :returns: Returns `true` if the String is equal to "true". Otherwise `false`.
+    - returns: Returns `true` if the String is equal to "true". Otherwise `false`.
     */
     func toBool() -> Bool {
         return self == "true"
@@ -101,7 +101,7 @@ public extension String {
     
     This property uses formatting information stored in the non-localized value; use an `NSScanner` object for localized scanning of numeric values from a string.
     
-    :returns: Double value
+    - returns: Double value
     */
     func toDouble() -> Double {
         return (self as NSString).doubleValue
@@ -121,9 +121,9 @@ public extension Double {
     :Implementation:
     `NSString(format: "%\(format)f", self) as String`
     
-    :param: format The String format for Double representation 
+    - parameter format: The String format for Double representation 
     
-    :returns: The formatted String
+    - returns: The formatted String
     */
     func stringWithFormat(format: String) -> String {
         return NSString(format: "%\(format)f", self) as String
@@ -136,11 +136,11 @@ public extension NSObject {
     /**
     Swizzles instance methods of a class.
     
-    :param: origSelector The method which will be replaced.
-    :param: withSelector The method which will be inserted.
-    :param: forClass     The class which method will be swizzled.
+    - parameter origSelector: The method which will be replaced.
+    - parameter withSelector: The method which will be inserted.
+    - parameter forClass:     The class which method will be swizzled.
     
-    :returns: Returns `true` if the the method swizzle was successfull. Otherwise `false`.
+    - returns: Returns `true` if the the method swizzle was successfull. Otherwise `false`.
     */
     class func swizzleMethodSelector(origSelector: String!, withSelector: String!, forClass:AnyClass!) -> Bool {
         
@@ -160,11 +160,11 @@ public extension NSObject {
     /**
     Swizzles class methods of a class.
     
-    :param: origSelector The method which will be replaced.
-    :param: withSelector The method which will be inserted.
-    :param: forClass     The class which method will be swizzled.
+    - parameter origSelector: The method which will be replaced.
+    - parameter withSelector: The method which will be inserted.
+    - parameter forClass:     The class which method will be swizzled.
     
-    :returns: Returns `true` if the the method swizzle was successfull. Otherwise `false`.
+    - returns: Returns `true` if the the method swizzle was successfull. Otherwise `false`.
     */
     class func swizzleStaticMethodSelector(origSelector: String!, withSelector: String!, forClass:AnyClass!) -> Bool {
         
@@ -187,16 +187,16 @@ public extension NSURL {
     /**
     Returns a `[String: String]` Array of all query parameters.
     
-    :returns: `[String: String]` Array of all query parameters.
+    - returns: `[String: String]` Array of all query parameters.
     */
     func queryParameters() -> [String: String] {
         var returnData: [String: String] = [String: String]()
         
         if let query = self.query {
-            let keyValuePairs = split(query) { $0 == "&" }
+            let keyValuePairs = query.characters.split { $0 == "&" }.map { String($0) }
             
             for keyValuePair in keyValuePairs {
-                let splits = split(keyValuePair) {$0 == "="}
+                let splits = keyValuePair.characters.split {$0 == "="}.map { String($0) }
                 let key = splits[0] as String
                 let value = splits[1] as String
                 returnData[key] = value
@@ -237,8 +237,8 @@ public extension NSDate {
     }
     
     func addDays(daysToAdd : Int) -> NSDate {
-        var secondsInDays : NSTimeInterval = Double(daysToAdd) * 60 * 60 * 24
-        var dateWithDaysAdded : NSDate = self.dateByAddingTimeInterval(secondsInDays)
+        let secondsInDays : NSTimeInterval = Double(daysToAdd) * 60 * 60 * 24
+        let dateWithDaysAdded : NSDate = self.dateByAddingTimeInterval(secondsInDays)
         
         //Return Result
         return dateWithDaysAdded
@@ -246,8 +246,8 @@ public extension NSDate {
     
     
     func addHours(hoursToAdd : Int) -> NSDate {
-        var secondsInHours : NSTimeInterval = Double(hoursToAdd) * 60 * 60
-        var dateWithHoursAdded : NSDate = self.dateByAddingTimeInterval(secondsInHours)
+        let secondsInHours : NSTimeInterval = Double(hoursToAdd) * 60 * 60
+        let dateWithHoursAdded : NSDate = self.dateByAddingTimeInterval(secondsInHours)
         
         //Return Result
         return dateWithHoursAdded

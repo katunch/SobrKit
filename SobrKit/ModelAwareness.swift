@@ -71,7 +71,7 @@ public protocol ModelAwareControl {
     /**
     Check if the current input is valid.
     
-    :returns: Returns `true` if the contents are valid. Otherwise `false`.
+    - returns: Returns `true` if the contents are valid. Otherwise `false`.
     */
     func validate() -> Bool
     
@@ -91,11 +91,11 @@ extension UILabel: ModelAwareControl {
     /// See ModelAwareControl protocol
     @IBInspectable public var modelKeyPath: String? {
         get {
-            return associatedObject(self, &AssociatedKey.modelKeyPath)
+            return associatedObject(self, associativeKey: &AssociatedKey.modelKeyPath)
         }
         set {
             if let value = newValue {
-                setAssociatedObject(self, value, &AssociatedKey.modelKeyPath, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+                setAssociatedObject(self, value: value, associativeKey: &AssociatedKey.modelKeyPath, policy: objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
         }
     }
@@ -103,7 +103,7 @@ extension UILabel: ModelAwareControl {
     /// See ModelAwareControl protocol
     @IBInspectable public var realtime: Bool {
         get {
-            if let rt: Bool = associatedObject(self, &AssociatedKey.realtime) {
+            if let rt: Bool = associatedObject(self, associativeKey: &AssociatedKey.realtime) {
                 return rt
             }
             else{
@@ -111,7 +111,7 @@ extension UILabel: ModelAwareControl {
             }
         }
         set {
-            setAssociatedObject(self, newValue, &AssociatedKey.realtime, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+            setAssociatedObject(self, value: newValue, associativeKey: &AssociatedKey.realtime, policy: objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
@@ -141,11 +141,11 @@ extension UITextView: ModelAwareControl {
     /// See ModelAwareControl protocol
     @IBInspectable public var modelKeyPath: String? {
         get {
-            return associatedObject(self, &AssociatedKey.modelKeyPath)
+            return associatedObject(self, associativeKey: &AssociatedKey.modelKeyPath)
         }
         set {
             if let value = newValue {
-                setAssociatedObject(self, value, &AssociatedKey.modelKeyPath, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+                setAssociatedObject(self, value: value, associativeKey: &AssociatedKey.modelKeyPath, policy: objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
         }
     }
@@ -153,7 +153,7 @@ extension UITextView: ModelAwareControl {
     /// See ModelAwareControl protocol
     @IBInspectable public var realtime: Bool {
         get {
-            if let rt: Bool = associatedObject(self, &AssociatedKey.realtime) {
+            if let rt: Bool = associatedObject(self, associativeKey: &AssociatedKey.realtime) {
                 return rt
             }
             else{
@@ -161,13 +161,13 @@ extension UITextView: ModelAwareControl {
             }
         }
         set {
-            setAssociatedObject(self, newValue, &AssociatedKey.realtime, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+            setAssociatedObject(self, value: newValue, associativeKey: &AssociatedKey.realtime, policy: objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
     @IBInspectable var required: Bool {
         get {
-            if let req: Bool = associatedObject(self, &AssociatedKey.required) {
+            if let req: Bool = associatedObject(self, associativeKey: &AssociatedKey.required) {
                 return req
             }
             else {
@@ -175,13 +175,13 @@ extension UITextView: ModelAwareControl {
             }
         }
         set {
-            setAssociatedObject(self, newValue, &AssociatedKey.required, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+            setAssociatedObject(self, value: newValue, associativeKey: &AssociatedKey.required, policy: objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
     @IBInspectable var errorBackgroundColor: UIColor? {
         get {
-            if let color: UIColor = associatedObject(self, &AssociatedKey.errorBackgroundColor) {
+            if let color: UIColor = associatedObject(self, associativeKey: &AssociatedKey.errorBackgroundColor) {
                 return color
             }
             else {
@@ -190,13 +190,13 @@ extension UITextView: ModelAwareControl {
         }
         set {
             if let value = newValue {
-                setAssociatedObject(self, value, &AssociatedKey.errorBackgroundColor, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+                setAssociatedObject(self, value: value, associativeKey: &AssociatedKey.errorBackgroundColor, policy: objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
         }
     }
     @IBInspectable var validBackgroundColor: UIColor? {
         get {
-            if let color: UIColor = associatedObject(self, &AssociatedKey.validBackgroundColor) {
+            if let color: UIColor = associatedObject(self, associativeKey: &AssociatedKey.validBackgroundColor) {
                 return color
             }
             else {
@@ -205,18 +205,18 @@ extension UITextView: ModelAwareControl {
         }
         set {
             if let value = newValue {
-                setAssociatedObject(self, value, &AssociatedKey.validBackgroundColor, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+                setAssociatedObject(self, value: value, associativeKey: &AssociatedKey.validBackgroundColor, policy: objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
         }
     }
     
     var normalBackgroundColor: UIColor? {
         get {
-            return associatedObject(self, &AssociatedKey.normalBackgroundColor)
+            return associatedObject(self, associativeKey: &AssociatedKey.normalBackgroundColor)
         }
         set {
             if let value = newValue {
-                setAssociatedObject(self, value, &AssociatedKey.normalBackgroundColor, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+                setAssociatedObject(self, value: value, associativeKey: &AssociatedKey.normalBackgroundColor, policy: objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
         }
     }
@@ -229,7 +229,7 @@ extension UITextView: ModelAwareControl {
     
     /// See ModelAwareControl protocol
     public func validate() -> Bool {
-        var valid = self.isValid()
+        let valid = self.isValid()
         
         self.updateAppearance(valid)
         
@@ -288,11 +288,11 @@ extension UITextField: ModelAwareControl {
     /// See ModelAwareControl protocol
     @IBInspectable public var modelKeyPath: String? {
         get {
-            return associatedObject(self, &AssociatedKey.modelKeyPath)
+            return associatedObject(self, associativeKey: &AssociatedKey.modelKeyPath)
         }
         set {
             if let value = newValue {
-                setAssociatedObject(self, value, &AssociatedKey.modelKeyPath, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+                setAssociatedObject(self, value: value, associativeKey: &AssociatedKey.modelKeyPath, policy: objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
         }
     }
@@ -300,7 +300,7 @@ extension UITextField: ModelAwareControl {
     /// See ModelAwareControl protocol
     @IBInspectable public var realtime: Bool {
         get {
-            if let rt: Bool = associatedObject(self, &AssociatedKey.realtime) {
+            if let rt: Bool = associatedObject(self, associativeKey: &AssociatedKey.realtime) {
                 return rt
             }
             else{
@@ -308,13 +308,13 @@ extension UITextField: ModelAwareControl {
             }
         }
         set {
-            setAssociatedObject(self, newValue, &AssociatedKey.realtime, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+            setAssociatedObject(self, value: newValue, associativeKey: &AssociatedKey.realtime, policy: objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
     @IBInspectable var required: Bool {
         get {
-            if let req: Bool = associatedObject(self, &AssociatedKey.required) {
+            if let req: Bool = associatedObject(self, associativeKey: &AssociatedKey.required) {
                 return req
             }
             else {
@@ -322,13 +322,13 @@ extension UITextField: ModelAwareControl {
             }
         }
         set {
-            setAssociatedObject(self, newValue, &AssociatedKey.required, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+            setAssociatedObject(self, value: newValue, associativeKey: &AssociatedKey.required, policy: objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
     @IBInspectable var errorBackgroundColor: UIColor? {
         get {
-            if let color: UIColor = associatedObject(self, &AssociatedKey.errorBackgroundColor) {
+            if let color: UIColor = associatedObject(self, associativeKey: &AssociatedKey.errorBackgroundColor) {
                 return color
             }
             else {
@@ -337,13 +337,13 @@ extension UITextField: ModelAwareControl {
         }
         set {
             if let value = newValue {
-                setAssociatedObject(self, value, &AssociatedKey.errorBackgroundColor, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+                setAssociatedObject(self, value: value, associativeKey: &AssociatedKey.errorBackgroundColor, policy: objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
         }
     }
     @IBInspectable var validBackgroundColor: UIColor? {
         get {
-            if let color: UIColor = associatedObject(self, &AssociatedKey.validBackgroundColor) {
+            if let color: UIColor = associatedObject(self, associativeKey: &AssociatedKey.validBackgroundColor) {
                 return color
             }
             else {
@@ -352,29 +352,29 @@ extension UITextField: ModelAwareControl {
         }
         set {
             if let value = newValue {
-                setAssociatedObject(self, value, &AssociatedKey.validBackgroundColor, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+                setAssociatedObject(self, value: value, associativeKey: &AssociatedKey.validBackgroundColor, policy: objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
         }
     }
     
     var normalBackgroundColor: UIColor? {
         get {
-            return associatedObject(self, &AssociatedKey.normalBackgroundColor)
+            return associatedObject(self, associativeKey: &AssociatedKey.normalBackgroundColor)
         }
         set {
             if let value = newValue {
-                setAssociatedObject(self, value, &AssociatedKey.normalBackgroundColor, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+                setAssociatedObject(self, value: value, associativeKey: &AssociatedKey.normalBackgroundColor, policy: objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
         }
     }
     
     @IBInspectable var validationPattern: String? {
         get {
-            return associatedObject(self, &AssociatedKey.validationPattern)
+            return associatedObject(self, associativeKey: &AssociatedKey.validationPattern)
         }
         set {
             if let value = newValue {
-                setAssociatedObject(self, value, &AssociatedKey.validationPattern, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+                setAssociatedObject(self, value: value, associativeKey: &AssociatedKey.validationPattern, policy: objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
         }
     }
@@ -387,7 +387,7 @@ extension UITextField: ModelAwareControl {
     
     /// See ModelAwareControl protocol
     public func validate() -> Bool {
-        var valid = self.isValid()
+        let valid = self.isValid()
         
         self.updateAppearance(valid)
         
@@ -433,7 +433,7 @@ extension UITextField: ModelAwareControl {
     /**
     Updates the apperance of the text field. useful for custom validations.
     
-    :param: valid true if input is valid. otherwise false
+    - parameter valid: true if input is valid. otherwise false
     
     */
     public func updateAppearance(valid: Bool) {
@@ -460,11 +460,11 @@ extension UISwitch: ModelAwareControl {
     /// See ModelAwareControl protocol
     @IBInspectable public var modelKeyPath: String? {
         get {
-            return associatedObject(self, &AssociatedKey.modelKeyPath)
+            return associatedObject(self, associativeKey: &AssociatedKey.modelKeyPath)
         }
         set {
             if let value = newValue {
-                setAssociatedObject(self, value, &AssociatedKey.modelKeyPath, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+                setAssociatedObject(self, value: value, associativeKey: &AssociatedKey.modelKeyPath, policy: objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
         }
     }
@@ -472,7 +472,7 @@ extension UISwitch: ModelAwareControl {
     /// See ModelAwareControl protocol
     @IBInspectable public var realtime: Bool {
         get {
-            if let rt: Bool = associatedObject(self, &AssociatedKey.realtime) {
+            if let rt: Bool = associatedObject(self, associativeKey: &AssociatedKey.realtime) {
                 return rt
             }
             else{
@@ -480,7 +480,7 @@ extension UISwitch: ModelAwareControl {
             }
         }
         set {
-            setAssociatedObject(self, newValue, &AssociatedKey.realtime, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+            setAssociatedObject(self, value: newValue, associativeKey: &AssociatedKey.realtime, policy: objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
@@ -509,11 +509,11 @@ extension UISegmentedControl: ModelAwareControl {
     /// See ModelAwareControl protocol
     @IBInspectable public var modelKeyPath: String? {
         get {
-            return associatedObject(self, &AssociatedKey.modelKeyPath)
+            return associatedObject(self, associativeKey: &AssociatedKey.modelKeyPath)
         }
         set {
             if let value = newValue {
-                setAssociatedObject(self, value, &AssociatedKey.modelKeyPath, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+                setAssociatedObject(self, value: value, associativeKey: &AssociatedKey.modelKeyPath, policy: objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
         }
     }
@@ -521,7 +521,7 @@ extension UISegmentedControl: ModelAwareControl {
     /// See ModelAwareControl protocol
     @IBInspectable public var realtime: Bool {
         get {
-            if let rt: Bool = associatedObject(self, &AssociatedKey.realtime) {
+            if let rt: Bool = associatedObject(self, associativeKey: &AssociatedKey.realtime) {
                 return rt
             }
             else{
@@ -529,13 +529,13 @@ extension UISegmentedControl: ModelAwareControl {
             }
         }
         set {
-            setAssociatedObject(self, newValue, &AssociatedKey.realtime, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+            setAssociatedObject(self, value: newValue, associativeKey: &AssociatedKey.realtime, policy: objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
     @IBInspectable var required: Bool {
         get {
-            if let req: Bool = associatedObject(self, &AssociatedKey.required) {
+            if let req: Bool = associatedObject(self, associativeKey: &AssociatedKey.required) {
                 return req
             }
             else {
@@ -543,13 +543,13 @@ extension UISegmentedControl: ModelAwareControl {
             }
         }
         set {
-            setAssociatedObject(self, newValue, &AssociatedKey.required, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+            setAssociatedObject(self, value: newValue, associativeKey: &AssociatedKey.required, policy: objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
     @IBInspectable var errorTintColor: UIColor? {
         get {
-            if let color: UIColor = associatedObject(self, &AssociatedKey.errorTintColor) {
+            if let color: UIColor = associatedObject(self, associativeKey: &AssociatedKey.errorTintColor) {
                 return color
             }
             else {
@@ -558,13 +558,13 @@ extension UISegmentedControl: ModelAwareControl {
         }
         set {
             if let value = newValue {
-                setAssociatedObject(self, value, &AssociatedKey.errorTintColor, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+                setAssociatedObject(self, value: value, associativeKey: &AssociatedKey.errorTintColor, policy: objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
         }
     }
     @IBInspectable var validTintColor: UIColor? {
         get {
-            if let color: UIColor = associatedObject(self, &AssociatedKey.validTintColor) {
+            if let color: UIColor = associatedObject(self, associativeKey: &AssociatedKey.validTintColor) {
                 return color
             }
             else {
@@ -573,18 +573,18 @@ extension UISegmentedControl: ModelAwareControl {
         }
         set {
             if let value = newValue {
-                setAssociatedObject(self, value, &AssociatedKey.validTintColor, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+                setAssociatedObject(self, value: value, associativeKey: &AssociatedKey.validTintColor, policy: objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
         }
     }
     
     var normalTintColor: UIColor? {
         get {
-            return associatedObject(self, &AssociatedKey.normalTintColor)
+            return associatedObject(self, associativeKey: &AssociatedKey.normalTintColor)
         }
         set {
             if let value = newValue {
-                setAssociatedObject(self, value, &AssociatedKey.normalTintColor, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+                setAssociatedObject(self, value: value, associativeKey: &AssociatedKey.normalTintColor, policy: objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
         }
     }
@@ -598,7 +598,7 @@ extension UISegmentedControl: ModelAwareControl {
     
     /// See ModelAwareControl protocol
     public func validate() -> Bool {
-        var valid = self.isValid()
+        let valid = self.isValid()
         self.updateAppearance(valid)
         return valid
     }
@@ -645,7 +645,7 @@ extension UISegmentedControl: ModelAwareControl {
     /**
     This initialize method is used to swizzle `viewDidLoad` and `viewWillAppear:` methods.
     
-    :returns: An instance of UIViewController
+    - returns: An instance of UIViewController
     */
     override public class func initialize() {
         dispatch_once(&Static.onceToken) {
@@ -668,7 +668,7 @@ extension UISegmentedControl: ModelAwareControl {
     
     func new_viewWillAppear(animated: Bool) {
         self.new_viewWillAppear(animated)
-        var controls = self.modelAwareControlsInView(self.view)
+        let controls = self.modelAwareControlsInView(self.view)
         for control in controls {
             self.setupObserving(control)
         }
@@ -682,11 +682,11 @@ extension UISegmentedControl: ModelAwareControl {
     
     //MARK: - Helpers
     private func registerDelegates() {
-        var controls = self.modelAwareControlsInView(self.view)
+        let controls = self.modelAwareControlsInView(self.view)
 //        debugPrintln("[SobrKit] Found \(controls.count) model aware controls to register")
         for control in controls {
-            if let keyPath = control.modelKeyPath {
-//                debugPrintln("[SobrKit] Bindable keyPath: \(keyPath)")
+            
+            if let _ = control.modelKeyPath {
                 
                 control.prepare()
                 
@@ -711,7 +711,7 @@ extension UISegmentedControl: ModelAwareControl {
     Update all ModelAwareControls for the current `UIViewController`.
     */
     public func updateModelBindables() {
-        var controls = self.modelAwareControlsInView(self.view)
+        let controls = self.modelAwareControlsInView(self.view)
 //        debugPrintln("[SobrKit] Updating \(controls.count) model aware controls")
         for control in controls {
             
@@ -725,7 +725,7 @@ extension UISegmentedControl: ModelAwareControl {
     
     func modelAwareControlsInView(view: UIView) -> [ModelAwareControl] {
         var results = [ModelAwareControl]()
-        for subview in view.subviews as! [UIView] {
+        for subview in view.subviews {
             if let labelView = subview as? ModelAwareControl {
                 results += [labelView]
             } else {
@@ -739,7 +739,7 @@ extension UISegmentedControl: ModelAwareControl {
         
         var results = [ModelAwareControl]()
         
-        var controls = self.modelAwareControlsInView(self.view)
+        let controls = self.modelAwareControlsInView(self.view)
 //        debugPrintln("[SobrKit] Scanning \(controls.count) model aware controls for keyPath \(keyPath)...")
         
         for control in controls {
@@ -756,7 +756,7 @@ extension UISegmentedControl: ModelAwareControl {
     func validate() -> Bool {
         var valid = true
         
-        var controls = self.modelAwareControlsInView(self.view)
+        let controls = self.modelAwareControlsInView(self.view)
         
         for control in controls {
             valid = valid && control.validate()
@@ -766,7 +766,7 @@ extension UISegmentedControl: ModelAwareControl {
     }
     
     func updateControl(value: AnyObject?, control: ModelAwareControl){
-        if let keyPath = control.modelKeyPath {
+        if let _ = control.modelKeyPath {
 //            debugPrintln("[SobrKit] Setting UI keyPath \(keyPath) to value: \(value)")
             if let modelAwareTextField = control as? UITextField {
                 if let stringValue = value as? String {
@@ -828,7 +828,7 @@ extension UISegmentedControl: ModelAwareControl {
     /**
     Tells the delegate that editing stopped for the specified text field.
     
-    :param: textField The text field for which editing ended.
+    - parameter textField: The text field for which editing ended.
     */
     public func textFieldDidEndEditing(textField: UITextField) {
         textField.validate()
@@ -839,7 +839,7 @@ extension UISegmentedControl: ModelAwareControl {
     /**
     Tells the delegate that the text or attributes in the specified text view were changed by the user.
     
-    :param: textView The text view containing the changes.
+    - parameter textView: The text view containing the changes.
     */
     public func textViewDidChange(textView: UITextView) {
         self.valueChanged(textView)
@@ -848,7 +848,7 @@ extension UISegmentedControl: ModelAwareControl {
     /**
     Tells the delegate that editing of the specified text view has ended.
     
-    :param: textView The text view in which editing ended.
+    - parameter textView: The text view in which editing ended.
     */
     public func textViewDidEndEditing(textView: UITextView) {
         textView.validate()
@@ -858,7 +858,7 @@ extension UISegmentedControl: ModelAwareControl {
     /**
     Event for value changed
     
-    :param: sender Sender object
+    - parameter sender: Sender object
     */
     public func valueChanged(sender: AnyObject) {
         if let control = sender as? ModelAwareControl {
@@ -871,17 +871,18 @@ extension UISegmentedControl: ModelAwareControl {
         if let keyPath = control.modelKeyPath {
             if control.realtime {
 //                debugPrintln("[SobrKit] Setting up observer for control with keyPath \(keyPath)")
-                let options = NSKeyValueObservingOptions.New | NSKeyValueObservingOptions.Old
+                let options: NSKeyValueObservingOptions = [NSKeyValueObservingOptions.New, NSKeyValueObservingOptions.Old]
                 self.addObserver(self, forKeyPath: keyPath, options: options, context: nil)
             }
         }
     }
     
-    public override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+    public override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
 //        debugPrintln("[SobrKit] Observed change keyPath: \(keyPath) of object: \(object)")
+        guard let keyPath = keyPath else { return }
         
         if let value: AnyObject = self.valueForKeyPath(keyPath)  {
-            var controls = self.controlsForModelKeyPath(keyPath)
+            let controls = self.controlsForModelKeyPath(keyPath)
             
             for control in controls {
                 self.updateControl(value, control: control)
@@ -890,7 +891,7 @@ extension UISegmentedControl: ModelAwareControl {
     }
     
     private func removeObservers() {
-        var controls = self.modelAwareControlsInView(self.view)
+        let controls = self.modelAwareControlsInView(self.view)
         
         for control in controls {
             if let keyPath = control.modelKeyPath {

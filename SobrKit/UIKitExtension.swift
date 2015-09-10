@@ -47,7 +47,7 @@ public extension UIView {
     /// Computed var for Interface Builder to set the border color.
     @IBInspectable var borderColor: UIColor {
         get {
-            return UIColor(CGColor: self.layer.borderColor)!
+            return UIColor(CGColor: self.layer.borderColor!)
         }
         set {
             self.layer.borderColor = newValue.CGColor

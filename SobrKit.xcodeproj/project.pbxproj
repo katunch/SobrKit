@@ -10,7 +10,6 @@
 		9479AFE81AEBADD000090C9C /* FoundationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9479AFE71AEBADD000090C9C /* FoundationExtension.swift */; };
 		9479AFEB1AEBAF4900090C9C /* UIKitExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9479AFEA1AEBAF4900090C9C /* UIKitExtension.swift */; };
 		9479B01B1AEBBBDD00090C9C /* ModelAwareness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9479B01A1AEBBBDD00090C9C /* ModelAwareness.swift */; };
-		9479B01D1AEBC1FB00090C9C /* AlamofireExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9479B01C1AEBC1FB00090C9C /* AlamofireExtension.swift */; };
 		9489EEDC1AEBA9B800D6A5AB /* SobrKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 9489EEDB1AEBA9B800D6A5AB /* SobrKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9489EEE21AEBA9B800D6A5AB /* SobrKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9489EED61AEBA9B800D6A5AB /* SobrKit.framework */; };
 		9489EEE91AEBA9B800D6A5AB /* SobrKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9489EEE81AEBA9B800D6A5AB /* SobrKitTests.swift */; };
@@ -30,7 +29,6 @@
 		9479AFE71AEBADD000090C9C /* FoundationExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoundationExtension.swift; sourceTree = "<group>"; };
 		9479AFEA1AEBAF4900090C9C /* UIKitExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIKitExtension.swift; sourceTree = "<group>"; };
 		9479B01A1AEBBBDD00090C9C /* ModelAwareness.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelAwareness.swift; sourceTree = "<group>"; };
-		9479B01C1AEBC1FB00090C9C /* AlamofireExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlamofireExtension.swift; sourceTree = "<group>"; };
 		9489EED61AEBA9B800D6A5AB /* SobrKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SobrKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9489EEDA1AEBA9B800D6A5AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9489EEDB1AEBA9B800D6A5AB /* SobrKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SobrKit.h; sourceTree = "<group>"; };
@@ -84,7 +82,6 @@
 				9479AFE71AEBADD000090C9C /* FoundationExtension.swift */,
 				9479AFEA1AEBAF4900090C9C /* UIKitExtension.swift */,
 				9479B01A1AEBBBDD00090C9C /* ModelAwareness.swift */,
-				9479B01C1AEBC1FB00090C9C /* AlamofireExtension.swift */,
 			);
 			path = SobrKit;
 			sourceTree = "<group>";
@@ -170,7 +167,9 @@
 		9489EECD1AEBA9B800D6A5AB /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Software Brauerei AG";
 				TargetAttributes = {
 					9489EED51AEBA9B800D6A5AB = {
@@ -221,7 +220,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9479B01D1AEBC1FB00090C9C /* AlamofireExtension.swift in Sources */,
 				9479B01B1AEBBBDD00090C9C /* ModelAwareness.swift in Sources */,
 				9479AFEB1AEBAF4900090C9C /* UIKitExtension.swift in Sources */,
 				9479AFE81AEBADD000090C9C /* FoundationExtension.swift in Sources */,
@@ -269,6 +267,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -347,6 +346,7 @@
 				INFOPLIST_FILE = SobrKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.sobr.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -364,6 +364,7 @@
 				INFOPLIST_FILE = SobrKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.sobr.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -382,6 +383,7 @@
 				);
 				INFOPLIST_FILE = SobrKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.sobr.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -395,6 +397,7 @@
 				);
 				INFOPLIST_FILE = SobrKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.sobr.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
